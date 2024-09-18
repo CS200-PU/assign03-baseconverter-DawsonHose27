@@ -117,23 +117,20 @@ string binaryToDecimal (const string& strNumber){
 }
 
 string decimalToBinary (const string& strNumber){
-  int decimalValue = stoi(strNumber), places = 0, value = 0;
+  int decimalValue = stoi(strNumber), places = 0;
   string binary = "0b";
 
 
-  do {
-    value = pow(2, places);
-    if (value < decimalValue){
+  while (pow(2, places) <= decimalValue) {
       places++;
-    }
-  } while (value < decimalValue);
+  }
 
-  for (int i = places - 1; i > 0; i--){
+  for (int i = places - 1; i >= 0; i--){
     if (decimalValue - pow(2, i) >= 0){
       binary.append("1");
       decimalValue -= pow(2,i);
     } else {
-      binary += "0";
+      binary.append("0");
     }
   }
 
@@ -142,15 +139,15 @@ string decimalToBinary (const string& strNumber){
 
 string decimalToHex (const string& strNumber){
   const int DIVISOR = 16;
-  int decimalValue = stoi(strNumber), remainder = 0;
+  int decimalValue = stoi(strNumber), remainder = 0, count = 0;
   char ch = '\0';
   string hex = "0x";
 
   do {
     remainder = decimalValue % DIVISOR;
-    if (remainder < 10){
+    if (remainder < 10 && count != 0){
       hex.append(to_string(remainder));
-    } else {
+    } else if (remainder >= 10){
       switch (remainder){
         case 10:
           ch = 'A';
@@ -174,7 +171,8 @@ string decimalToHex (const string& strNumber){
       hex = hex + ch;
     }
     decimalValue /= DIVISOR;
-  } while(decimalValue != 0);
+    count++;
+  } while(decimalValue != 0 && remainder != 16);
 
   return hex;
 }
