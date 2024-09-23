@@ -107,9 +107,9 @@ string binaryToDecimal (const string& strNumber){
   const char ON = '1';
   int decimal = 0, length = strNumber.length();
 
-  for (int i = length; i > 1; i--){
+  for (int i = length - 1; i > 1; i--){
     if (strNumber[i] == ON){
-      decimal += pow(2 ,length - i);
+      decimal += pow(2, length - (1 + i));
     }
   }
 
@@ -117,7 +117,7 @@ string binaryToDecimal (const string& strNumber){
 }
 
 string decimalToBinary (const string& strNumber){
-  int decimalValue = stoi(strNumber), places = 0;
+  int decimalValue = stoi(strNumber), places = 1;
   string binary = "0b";
 
 
@@ -142,37 +142,68 @@ string decimalToHex (const string& strNumber){
   int decimalValue = stoi(strNumber), remainder = 0, count = 0;
   char ch = '\0';
   string hex = "0x";
+  string decToHex = "";
 
   do {
     remainder = decimalValue % DIVISOR;
-    if (remainder < 10 && count != 0){
-      hex.append(to_string(remainder));
-    } else if (remainder >= 10){
-      switch (remainder){
-        case 10:
-          ch = 'A';
-          break;
-        case 11:
-          ch = 'B';
-          break;
-        case 12:
-          ch = 'C';
-          break;
-        case 13:
-          ch = 'D';
-          break;
-        case 14:
-          ch = 'E';
-          break;
-        case 15:
-          ch = 'F';
-          break;
-      }
-      hex = hex + ch;
+    switch (remainder){
+      case 0:
+        ch = '0';
+        break;
+      case 1:
+        ch = '1';
+        break;
+      case 2:
+        ch = '2';
+        break;
+      case 3:
+        ch = '3';
+        break;
+      case 4:
+        ch = '4';
+        break;
+      case 5:
+        ch = '5';
+        break;
+      case 6:
+        ch = '6';
+        break;
+      case 7:
+        ch = '7';
+        break;
+      case 8:
+        ch = '8';
+        break;
+      case 9:
+        ch = '9';
+        break;
+      case 10:
+        ch = 'A';
+        break;
+      case 11:
+        ch = 'B';
+        break;
+      case 12:
+        ch = 'C';
+        break;
+      case 13:
+        ch = 'D';
+        break;
+      case 14:
+        ch = 'E';
+        break;
+      case 15:
+        ch = 'F';
+        break;
     }
+    decToHex += ch;
     decimalValue /= DIVISOR;
     count++;
-  } while(decimalValue != 0 && remainder != 16);
+  } while(decimalValue != 0);
+
+  for (int i = count - 1;i >= 0; i--){
+    hex += decToHex[i];
+  }
 
   return hex;
 }
@@ -180,8 +211,58 @@ string decimalToHex (const string& strNumber){
 string hexToDecimal (const string& strNumber){
   int hexValue = 0, hexCharValue = 0;
 
-  for (int i = 0; i < strNumber.length(); i++){
-    hexCharValue += hexCharToInt(strNumber[i]);
+  for (int i = strNumber.length() - 1; i > 1; i--){
+    hexCharValue = hexCharToInt(strNumber[i]);
+    switch (hexCharValue){
+      case 48:
+        hexCharValue = 0;
+        break;
+      case 49:
+        hexCharValue = 1;
+        break;
+      case 50:
+        hexCharValue = 2;
+        break;
+      case 51:
+        hexCharValue = 3;
+        break;
+      case 52:
+        hexCharValue = 4;
+        break;
+      case 53:
+        hexCharValue = 5;
+        break;
+      case 54:
+        hexCharValue = 6;
+        break;
+      case 55:
+        hexCharValue = 7;
+        break;
+      case 56:
+        hexCharValue = 8;
+        break;
+      case 57:
+        hexCharValue = 9;
+        break;
+      case 65:
+        hexCharValue = 10;
+        break;
+      case 66:
+        hexCharValue = 11;
+        break;
+      case 67:
+        hexCharValue = 12;
+        break;
+      case 68:
+        hexCharValue = 13;
+        break;
+      case 69:
+        hexCharValue = 14;
+        break;
+      case 70:
+        hexCharValue = 15;
+        break;
+    }
     hexValue += hexCharValue * pow(16, strNumber.length() - (1 + i));
   }
 
