@@ -274,5 +274,5 @@ string hexToBinary (const string& strNumber){
 }
 
 string binaryToHex (const string& strNumber){
-  return decimalToHex(binaryToDecimal(strNumber));
+  return decimalToHex(binaryToDecimal(strNumber)); 
 }
